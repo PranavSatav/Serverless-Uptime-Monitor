@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLU UI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-black text-white h-screen">
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <!-- Main Container -->
+    <div class="flex h-full">
+
+        <!-- Sidebar -->
+        <div class="w-1/4 bg-gray-900 p-6 flex flex-col justify-between">
+            <div>
+                <!-- Logo -->
+                
+                
+                <!-- Menu Items -->
+                <nav class="space-y-6 text-lg">
+                    <a href="#" class="flex items-center space-x-3 text-white">
+                        <span class="bg-yellow-400 w-5 h-5 "></span>
+                        <span>Quick Access</span>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">Explore</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Favorites (32)</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Send</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Swap</a>
+                    <a href="#" class="text-gray-400 hover:text-white">History</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Settings</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Bridge</a>
+                </nav>
+            </div>
+
+            <!-- Go to Premium Button -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold mb-2">Serverless Uptime<br>Monitor</h1>
+                <p class="text-sm text-gray-400">You can use any of the offered wallets<br>for connection</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="flex-1  overflow-y-auto" style="height: 100vh;">
+            <div class="h-16 lg:flex w-full  hidden px-10">
+                <div class="flex h-full text-gray-600 dark:text-gray-400">
+                  
+                  <a href="#" class="cursor-pointer h-full border-b-2 border-blue-500 text-blue-500 dark:text-white dark:border-white inline-flex mr-8 items-center">Monitors</a>
+                  <a href="#" class="cursor-pointer h-full border-b-2 border-transparent inline-flex items-center mr-8">Expense Centres</a>
+                  <a href="#" class="cursor-pointer h-full border-b-2 border-transparent inline-flex items-center">Currency Exchange</a>
+                </div>
+                <div class="ml-auto flex items-center space-x-7">
+                    <button id="newMonitor" class="hidden ">
+                        Add Monitor
+                    </button>
+          
+                  <button class="flex items-center">
+                    <span class="relative flex-shrink-0">
+                      <img class="w-7 h-7 rounded-full" src="https://i.pinimg.com/736x/a4/42/b4/a442b44bc1f0dbf6cf141d6de41813c6.jpg" alt="profile" />
+                      <span class="absolute right-0 -mb-0.5 bottom-0 w-2 h-2 rounded-full bg-green-500 border border-white dark:border-gray-900"></span>
+                    </span>
+                    <span class="ml-2">Pranav Satav</span>
+                    <svg viewBox="0 0 24 24" class="w-4 ml-1 flex-shrink-0" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal" class="block w-full hover:text-white text-white bg-gray-900 hover:bg-white focus:ring-4 focus:outline-none font-medium text-sm px-5 py-2.5 text-center dark:bg-gray-900 dark:hover:bg-gray-800" type="button">
+                Tap here to add a new monitor
+            </button>
+            
+            <div id="monitorList"></div>
+        </main>
+    
+        <div id="popup" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center">
+            <div class="bg-gray-800 p-6 ">
+                <h2 class="text-xl font-bold mb-4">Add New Monitor</h2>
+                
+            </div>
+            
+        </div>
+    
+
+<!-- Modal toggle -->
+
+  
+  <!-- Main modal -->
+  <div id="timeline-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-md max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                  <!-- Modal header -->
+                  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                          New Node Configuration
+                      </h3>
+                      <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="timeline-modal">
+                          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                          </svg>
+                          <span class="sr-only">Close modal</span>
+                      </button>
+                  </div>
+                  <!-- Modal body -->
+                  <div class="p-4 md:p-5">
+                      <ol class="relative border-s border-gray-200 dark:border-gray-600 ms-3.5 mb-4 md:mb-5">                  
+                          <li class="mb-10 ms-8">            
+                              <span class="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white dark:ring-gray-700 dark:bg-gray-600">
+                                  <svg class="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                              </span>
+                              <h3 class="flex items-start mb-1 text-lg font-semibold text-gray-900 dark:text-white">Input Node URL <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 ms-3">Latest</span></h3>
+                              <time class="block mb-3 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">This will start tracking</time>
+                              <input id="websiteUrl" type="text" placeholder="Website URL" class="w-full p-2 mb-4 bg-gray-700 ">
+                
+                
+                
+                <button id="closePopup" class="hidden ">
+                    Cancel
+                </button>
+                          </li>
+                          <li class="mb-10 ms-8">
+                              <span class="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white dark:ring-gray-700 dark:bg-gray-600">
+                                  <svg class="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                              </span>
+                              <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">What should be the name?</h3>
+                              <time class="block mb-3 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Used to identify node</time>
+                              <input id="websiteName" type="text" placeholder="Monitor Name" class="w-full p-2 mb-4 bg-gray-700 ">
+                          </li>
+                          <li class="ms-8">
+                              <span class="absolute flex items-center justify-center w-6 h-6 bg-gray-100 rounded-full -start-3.5 ring-8 ring-white dark:ring-gray-700 dark:bg-gray-600">
+                                  <svg class="w-2.5 h-2.5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="currentColor" d="M6 1a1 1 0 0 0-2 0h2ZM4 4a1 1 0 0 0 2 0H4Zm7-3a1 1 0 1 0-2 0h2ZM9 4a1 1 0 1 0 2 0H9Zm7-3a1 1 0 1 0-2 0h2Zm-2 3a1 1 0 1 0 2 0h-2ZM1 6a1 1 0 0 0 0 2V6Zm18 2a1 1 0 1 0 0-2v2ZM5 11v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 11v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM10 15v-1H9v1h1Zm0 .01H9v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 15v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM15 11v-1h-1v1h1Zm0 .01h-1v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM5 15v-1H4v1h1Zm0 .01H4v1h1v-1Zm.01 0v1h1v-1h-1Zm0-.01h1v-1h-1v1ZM2 4h16V2H2v2Zm16 0h2a2 2 0 0 0-2-2v2Zm0 0v14h2V4h-2Zm0 14v2a2 2 0 0 0 2-2h-2Zm0 0H2v2h16v-2ZM2 18H0a2 2 0 0 0 2 2v-2Zm0 0V4H0v14h2ZM2 4V2a2 2 0 0 0-2 2h2Zm2-3v3h2V1H4Zm5 0v3h2V1H9Zm5 0v3h2V1h-2ZM1 8h18V6H1v2Zm3 3v.01h2V11H4Zm1 1.01h.01v-2H5v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H5v2h.01v-2ZM9 11v.01h2V11H9Zm1 1.01h.01v-2H10v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM9 15v.01h2V15H9Zm1 1.01h.01v-2H10v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H10v2h.01v-2ZM14 15v.01h2V15h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM14 11v.01h2V11h-2Zm1 1.01h.01v-2H15v2Zm1.01-1V11h-2v.01h2Zm-1-1.01H15v2h.01v-2ZM4 15v.01h2V15H4Zm1 1.01h.01v-2H5v2Zm1.01-1V15h-2v.01h2Zm-1-1.01H5v2h.01v-2Z"/></svg>
+                              </span>
+                              <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">Duration to scan a node</h3>
+                              <time class="block mb-3 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Default is 30sec, you can reduce.</time>
+                              <input id="checkInterval" type="number" placeholder="Check Interval (seconds)" value="30" class="w-full p-2 mb-4 bg-gray-700 ">
+                          </li>
+                      </ol>
+                      <button id="addMonitor" class="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Start Node
+                      </button>
+                  </div>
+              </div>
+      </div>
+  </div> 
+  
+        <script>
+    const monitorList = document.getElementById('monitorList');
+    const newMonitorBtn = document.getElementById('newMonitor');
+    const popup = document.getElementById('popup');
+    const addMonitorBtn = document.getElementById('addMonitor');
+    const closePopupBtn = document.getElementById('closePopup');
+    const websiteUrlInput = document.getElementById('websiteUrl');
+    const websiteNameInput = document.getElementById('websiteName');
+    const checkIntervalInput = document.getElementById('checkInterval');
+    
+    let monitors = [];
+    
+    newMonitorBtn.addEventListener('click', () => {
+        popup.classList.remove('hidden');
+        popup.classList.add('flex');
+    });
+    
+    closePopupBtn.addEventListener('click', () => {
+        popup.classList.add('hidden');
+        popup.classList.remove('flex');
+    });
+    
+    addMonitorBtn.addEventListener('click', () => {
+        const url = websiteUrlInput.value;
+        const name = websiteNameInput.value;
+        const interval = parseInt(checkIntervalInput.value) * 1000;
+        if (url && name && interval) {
+            addMonitor(url, name, interval);
+            popup.classList.add('hidden');
+            popup.classList.remove('flex');
+            websiteUrlInput.value = '';
+            websiteNameInput.value = '';
+            checkIntervalInput.value = '30';
+        }
+    });
+    
+    function addMonitor(url, name, interval) {
+        const monitor = {
+            url,
+            name,
+            interval,
+            startTime: Date.now(),
+            checks: 0,
+            downtime: 0,
+            incidents: 0,
+            responseTimesTotal: 0,
+            responseTimesMin: Infinity,
+            responseTimesMax: 0,
+            lastCheck: Date.now(),
+            status: 'Checking...',
+            chartData: [],
+        };
+    
+        monitors.push(monitor);
+        createMonitorUI(monitor);
+        startMonitoring(monitor);
+    }
+    
+    function createMonitorUI(monitor) {
+        const monitorEl = document.createElement('div');
+        monitorEl.className = 'bg-gray-800 p-6  mb-6';
+        monitorEl.innerHTML = `
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center">
+                    <div class="w-4 h-4  bg-green-500 mr-2 status-indicator"></div>
+                    <h3 class="text-xl font-bold">${monitor.name}</h3>
+                </div>
+                <div class="text-sm status-text">Up · Checked every ${monitor.interval / 1000} seconds</div>
+            </div>
+            <div class="flex space-x-4 mb-4">
+                <button class="text-sm text-gray-400 hover:text-white"><i class="fas fa-bell mr-1"></i> Send a test alert</button>
+                <button class="text-sm text-gray-400 hover:text-white"><i class="fas fa-exclamation-triangle mr-1"></i> Incidents</button>
+                <button class="text-sm text-gray-400 hover:text-white"><i class="fas fa-pause mr-1"></i> Pause this monitor</button>
+                <button class="text-sm text-gray-400 hover:text-white delete-monitor"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">Monitor is up for</div>
+                    <div class="text-xl font-bold uptime">0 seconds</div>
+                </div>
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">Last checked</div>
+                    <div class="text-xl font-bold last-checked">Just now</div>
+                </div>
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">Incidents</div>
+                    <div class="text-xl font-bold incidents">0</div>
+                </div>
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">Average Response Time</div>
+                    <div class="text-xl font-bold avg-response-time">0 ms</div>
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mb-4">
+                
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">Downtime Percentage</div>
+                    <div class="text-xl font-bold downtime-percentage">0%</div>
+                </div>
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">Total Checks</div>
+                    <div class="text-xl font-bold total-checks">0</div>
+                </div>
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">All-Time High</div>
+                    <div class="text-xl font-bold all-time-high">0 ms</div>
+                </div>
+                <div class="bg-gray-700 p-4 ">
+                    <div class="text-sm text-gray-400 mb-1">All-Time Low</div>
+                    <div class="text-xl font-bold all-time-low">0 ms</div>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-2">Response time</h4>
+                <div class="text-sm text-gray-400 mb-2">Response times since monitor is up</div>
+                <canvas class="response-chart" width="400" height="50"></canvas>
+            </div>
+        `;
+    
+        monitorList.appendChild(monitorEl);
+    
+        const ctx = monitorEl.querySelector('.response-chart').getContext('2d');
+        monitor.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Response Time (ms)',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    x: { type: 'linear', position: 'bottom' },
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    
+        // Delete button functionality
+        monitorEl.querySelector('.delete-monitor').addEventListener('click', () => {
+            monitorList.removeChild(monitorEl);
+            monitors = monitors.filter(m => m !== monitor);
+        });
+    }
+    
+    function startMonitoring(monitor) {
+        // Start monitoring the website
+        setInterval(async () => {
+            await checkWebsite(monitor);
+        }, monitor.interval);
+    
+        // Start a separate interval to update the uptime and last checked every second
+        setInterval(() => {
+            const uptimeSeconds = Math.floor((Date.now() - monitor.startTime) / 1000);
+            const lastCheckedSeconds = Math.floor((Date.now() - monitor.lastCheck) / 1000);
+            updateMonitorTimeUI(monitor, uptimeSeconds, lastCheckedSeconds);
+        }, 1000);
+    }
+    
+    async function checkWebsite(monitor) {
+        const startTime = Date.now();
+        try {
+            const response = await fetch(monitor.url, { method: 'HEAD', mode: 'no-cors' });
+            const duration = Date.now() - startTime;
+    
+            monitor.checks += 1;
+            monitor.lastCheck = Date.now();
+            monitor.responseTimesTotal += duration;
+            monitor.responseTimesMin = Math.min(monitor.responseTimesMin, duration);
+            monitor.responseTimesMax = Math.max(monitor.responseTimesMax, duration);
+    
+            // Update chart data independently
+            monitor.chart.data.labels.push(monitor.checks);
+            monitor.chart.data.datasets[0].data.push(duration);
+            monitor.chart.update();
+    
+            // Update UI
+            updateMonitorUI(monitor, 'Up', duration);
+    
+        } catch (error) {
+            monitor.incidents += 1;
+            monitor.downtime += monitor.interval;
+            monitor.status = 'Down';
+            updateMonitorUI(monitor, 'Down');
+        }
+    
+        // Update additional metrics
+        updateMetrics(monitor);
+    }
+    
+    function updateMetrics(monitor) {
+        const avgResponseTime = monitor.checks > 0 ? (monitor.responseTimesTotal / monitor.checks).toFixed(2) : 0;
+        const downtimePercentage = monitor.downtime > 0 ? ((monitor.downtime / (monitor.checks * monitor.interval)) * 100).toFixed(2) : 0;
+        const totalChecks = monitor.checks;
+        const allTimeHigh = monitor.responseTimesMax;
+        const allTimeLow = monitor.responseTimesMin === Infinity ? 0 : monitor.responseTimesMin;
+    
+        const monitorEl = [...monitorList.children].find(el => el.querySelector('h3').innerText === monitor.name);
+        monitorEl.querySelector('.avg-response-time').innerText = `${avgResponseTime} ms`;
+        monitorEl.querySelector('.downtime-percentage').innerText = `${downtimePercentage}%`;
+        monitorEl.querySelector('.total-checks').innerText = totalChecks;
+        monitorEl.querySelector('.all-time-high').innerText = `${allTimeHigh} ms`;
+        monitorEl.querySelector('.all-time-low').innerText = `${allTimeLow} ms`;
+    }
+    
+    function updateMonitorUI(monitor, status, duration) {
+        const monitorEl = [...monitorList.children].find(el => el.querySelector('h3').innerText === monitor.name);
+        monitorEl.querySelector('.status-indicator').className = `w-4 h-4  bg-${status === 'Up' ? 'green-500' : 'red-500'} mr-2 status-indicator`;
+        monitorEl.querySelector('.status-text').innerText = `${status} · Checked every ${monitor.interval / 1000} seconds`;
+        monitorEl.querySelector('.last-checked').innerText = `${Math.floor((Date.now() - monitor.lastCheck) / 1000)} seconds ago`;
+        monitorEl.querySelector('.uptime').innerText = `${Math.floor((Date.now() - monitor.startTime) / 1000)} seconds`;
+        
+        // Update incidents
+        if (status === 'Down') {
+            monitorEl.querySelector('.incidents').innerText = monitor.incidents;
+        }
+    }
+    
+    function updateMonitorTimeUI(monitor, uptimeSeconds, lastCheckedSeconds) {
+        const monitorEl = [...monitorList.children].find(el => el.querySelector('h3').innerText === monitor.name);
+        monitorEl.querySelector('.uptime').innerText = `${uptimeSeconds} seconds`;
+        monitorEl.querySelector('.last-checked').innerText = `${lastCheckedSeconds} seconds ago`;
+    }
+    
+        </script>
+
+    </div>
+
+</body>
+</html>
